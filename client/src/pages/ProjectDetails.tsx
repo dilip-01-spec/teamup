@@ -12,25 +12,25 @@ import {
 import { getProject, type Project } from "../services/api";
 import "../App.css";
 
-/* ── Unified Minimal Navbar ── */
+/* ── Unified Minimalist Navbar ── */
 function Navbar() {
   return (
     <div className="shared-navbar-wrap">
       <div className="shared-navbar-inner">
         <Link to="/" className="brand">
-          team<span className="brand-highlight">up</span>
+          team<em>up</em>
           <span className="brand-dot" />
         </Link>
 
         <nav className="shared-nav-links">
           <Link to="/">Home</Link>
-          <Link to="/explore">Explore</Link>
-          <Link to="/create">Post a project</Link>
+          <Link to="/explore">Directory</Link>
+          <Link to="/create">Post Project</Link>
         </nav>
 
         <div className="shared-nav-actions">
           <Link to="/create" className="nav-post-btn">
-            <Plus size={14} /> Post project
+            <Plus size={14} /> Post Project
           </Link>
         </div>
       </div>
@@ -38,7 +38,7 @@ function Navbar() {
   );
 }
 
-/* ── Join Modal ── */
+/* ── Join Modal (Warm Minimalist) ── */
 interface JoinModalProps {
   project: Project;
   onClose: () => void;
@@ -55,7 +55,7 @@ function JoinModal({ project, onClose }: JoinModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) {
-      setError("Please fill in your name and email address.");
+      setError("Please provide your name and email address.");
       return;
     }
     setError("");
@@ -80,26 +80,26 @@ function JoinModal({ project, onClose }: JoinModalProps) {
         {submitted ? (
           <div className="modal-success">
             <CheckCircle size={44} />
-            <h3>Request dispatched!</h3>
+            <h3>Request Dispatched</h3>
             <p>
               Your collaboration request for <strong>{project.title}</strong> has been
-              recorded. The creator ({project.creatorName}) can now reach out to you.
+              recorded. {project.creatorName} will receive your note.
             </p>
-            <button className="btn-primary" onClick={onClose} style={{ marginTop: 12 }}>
-              Back to project
+            <button className="btn-primary" onClick={onClose} style={{ marginTop: 14 }}>
+              Return to Project
             </button>
           </div>
         ) : (
           <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
               <div>
-                <h3>Request to join project</h3>
-                <p>Send your collaboration proposal to {project.creatorName}.</p>
+                <h3>Request to Join</h3>
+                <p>Send an intentional note to {project.creatorName}.</p>
               </div>
               <button
                 onClick={onClose}
                 style={{ background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}
-                aria-label="Close"
+                aria-label="Close modal"
               >
                 <X size={18} />
               </button>
@@ -107,7 +107,7 @@ function JoinModal({ project, onClose }: JoinModalProps) {
 
             <form onSubmit={handleSubmit}>
               <div className="modal-field">
-                <label>Your full name</label>
+                <label>Your Name</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -116,7 +116,7 @@ function JoinModal({ project, onClose }: JoinModalProps) {
               </div>
 
               <div className="modal-field">
-                <label>Contact email</label>
+                <label>Email Address</label>
                 <input
                   type="email"
                   value={email}
@@ -126,11 +126,11 @@ function JoinModal({ project, onClose }: JoinModalProps) {
               </div>
 
               <div className="modal-field">
-                <label>How can you contribute? (optional)</label>
+                <label>How would you like to contribute? (optional)</label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Mention your relevant experience, GitHub profile, or why you're interested in this project..."
+                  placeholder="Share a short note about your experience, interests, or background..."
                 />
               </div>
 
@@ -141,7 +141,7 @@ function JoinModal({ project, onClose }: JoinModalProps) {
                   Cancel
                 </button>
                 <button type="submit" className="modal-submit" disabled={submitting}>
-                  {submitting ? "Sending..." : "Submit request"}
+                  {submitting ? "Sending..." : "Submit Proposal"}
                 </button>
               </div>
             </form>
@@ -177,8 +177,8 @@ export default function ProjectDetails() {
     return (
       <div className="page-shell">
         <Navbar />
-        <div className="explore-container" style={{ paddingTop: 64 }}>
-          <p className="explore-message">Loading project specification...</p>
+        <div className="explore-container" style={{ paddingTop: 70 }}>
+          <p className="explore-message">Loading project archive...</p>
         </div>
       </div>
     );
@@ -188,10 +188,10 @@ export default function ProjectDetails() {
     return (
       <div className="page-shell">
         <Navbar />
-        <div className="explore-container" style={{ paddingTop: 64 }}>
-          <h2 style={{ marginBottom: 16 }}>{error || "Project not found"}</h2>
+        <div className="explore-container" style={{ paddingTop: 70 }}>
+          <h2 style={{ marginBottom: 16 }}>{error || "Project Not Found"}</h2>
           <Link to="/explore" className="back-link">
-            <ArrowLeft size={16} /> Return to Explore
+            <ArrowLeft size={15} /> Return to Directory
           </Link>
         </div>
       </div>
@@ -205,9 +205,9 @@ export default function ProjectDetails() {
       <div className="page-shell">
         <Navbar />
 
-        <div className="explore-container" style={{ paddingTop: 36 }}>
+        <div className="explore-container" style={{ paddingTop: 40 }}>
           <Link to="/explore" className="back-link">
-            <ArrowLeft size={15} /> Back to all projects
+            <ArrowLeft size={14} /> Back to Directory
           </Link>
 
           {/* Main Details Card */}
@@ -218,17 +218,17 @@ export default function ProjectDetails() {
 
             <p>{project.description}</p>
 
-            <h3>Skills Required</h3>
+            <h3>Required Technical Skills</h3>
             <div className="project-skills">
               {project.skillsRequired.map((skill) => (
                 <span key={skill}>{skill}</span>
               ))}
             </div>
 
-            <h3>Roles We're Looking For</h3>
+            <h3>Target Roles</h3>
             <div className="project-skills">
               {project.lookingFor.map((role) => (
-                <span key={role} style={{ borderColor: "var(--accent-border)", color: "var(--text-primary)" }}>
+                <span key={role} style={{ borderColor: "var(--accent)", color: "var(--accent)" }}>
                   {role}
                 </span>
               ))}
@@ -237,14 +237,14 @@ export default function ProjectDetails() {
             <div className="details-meta">
               <span>
                 <Users size={15} style={{ color: "var(--accent)" }} />
-                Created by {project.creatorName}
+                Initiated by {project.creatorName}
               </span>
               <span>
                 <Clock size={15} />
-                {project.commitment} commitment
+                {project.commitment} Engagement
               </span>
-              <span className={`status-badge ${isOpen ? "status-open" : ""}`}>
-                <span className="status-dot" style={{ backgroundColor: isOpen ? "var(--accent)" : "var(--text-secondary)" }} />
+              <span className="status-badge">
+                <span className="status-dot" />
                 {project.status}
               </span>
             </div>
@@ -253,18 +253,18 @@ export default function ProjectDetails() {
           {/* Join Collaboration Box */}
           <div className="join-section">
             <div>
-              <h3>Interested in collaborating?</h3>
+              <h3>Contribute to This Initiative</h3>
               <p>
-                Connect directly with {project.creatorName} to request a spot on this team.
+                Connect directly with {project.creatorName} to explore collaborating on this project.
               </p>
             </div>
             {isOpen ? (
               <button className="join-btn" onClick={() => setShowJoin(true)}>
-                <Briefcase size={15} /> Request to join
+                <Briefcase size={15} /> Request to Join
               </button>
             ) : (
               <button className="join-btn" disabled>
-                {project.status === "Completed" ? "Project completed" : "Applications closed"}
+                {project.status === "Completed" ? "Initiative Completed" : "Applications Closed"}
               </button>
             )}
           </div>

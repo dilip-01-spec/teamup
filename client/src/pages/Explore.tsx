@@ -10,25 +10,25 @@ import {
 import { getProjects, type Project } from "../services/api";
 import "../App.css";
 
-/* ── Unified Minimal Navbar ── */
+/* ── Unified Minimalist Navbar ── */
 function Navbar() {
   return (
     <div className="shared-navbar-wrap">
       <div className="shared-navbar-inner">
         <Link to="/" className="brand">
-          team<span className="brand-highlight">up</span>
+          team<em>up</em>
           <span className="brand-dot" />
         </Link>
 
         <nav className="shared-nav-links">
           <Link to="/">Home</Link>
-          <Link to="/explore" className="active">Explore</Link>
-          <Link to="/create">Post a project</Link>
+          <Link to="/explore" className="active">Directory</Link>
+          <Link to="/create">Post Project</Link>
         </nav>
 
         <div className="shared-nav-actions">
           <Link to="/create" className="nav-post-btn">
-            <Plus size={14} /> Post project
+            <Plus size={14} /> Post Project
           </Link>
         </div>
       </div>
@@ -38,10 +38,9 @@ function Navbar() {
 
 /* ── Status Indicator ── */
 function StatusBadge({ status }: { status: string }) {
-  const isOpen = status === "Open";
   return (
-    <span className={`status-badge ${isOpen ? "status-open" : ""}`}>
-      <span className="status-dot" style={{ backgroundColor: isOpen ? "var(--accent)" : "var(--text-secondary)" }} />
+    <span className="status-badge">
+      <span className="status-dot" />
       {status}
     </span>
   );
@@ -60,7 +59,7 @@ export default function Explore() {
       .then(setProjects)
       .catch(() =>
         setError(
-          "Could not connect to the server. Please check whether the backend is running on port 5001."
+          "Unable to load initiatives. Please verify the server connection."
         )
       )
       .finally(() => setLoading(false));
@@ -92,11 +91,13 @@ export default function Explore() {
       <div className="explore-container">
         {/* Header */}
         <section className="explore-heading">
-          <span className="eyebrow">Discover</span>
-          <h1>Explore active projects.</h1>
+          <span className="eyebrow">— Directory</span>
+          <h1>
+            Discover <em>Initiatives</em>
+          </h1>
           <p>
-            Browse real technical initiatives, filter by category or tech stack,
-            and connect with builders who need your skillset.
+            Browse student & developer initiatives looking for collaborators.
+            Filter by tech stack or category to find your next team.
           </p>
         </section>
 
@@ -117,7 +118,7 @@ export default function Explore() {
               <button
                 key={item}
                 type="button"
-                className={`category-chip${category === item ? " active" : ""}`}
+                className={`category-chip ${category === item ? "active" : ""}`}
                 onClick={() => setCategory(item)}
               >
                 {item}
@@ -130,13 +131,13 @@ export default function Explore() {
         {!loading && !error && (
           <div className="explore-results">
             <div>
-              <h2>Projects</h2>
+              <h2>Active Collaborations</h2>
               <p>
                 Showing {filteredProjects.length} opportunit
                 {filteredProjects.length === 1 ? "y" : "ies"}
               </p>
             </div>
-            <span className="results-label">LIVE DATABASE</span>
+            <span className="results-label">CURATED ARCHIVE</span>
           </div>
         )}
 
@@ -154,7 +155,7 @@ export default function Explore() {
           </div>
         ) : error ? (
           <div className="explore-empty">
-            <p style={{ color: "#ff7575", fontSize: 14 }}>{error}</p>
+            <p style={{ color: "#a84232", fontSize: 14 }}>{error}</p>
           </div>
         ) : filteredProjects.length === 0 ? (
           <div className="explore-empty">
@@ -205,7 +206,7 @@ export default function Explore() {
 
                     <span className="card-cta-label">
                       <Users size={13} />
-                      View Project
+                      View Details
                       <ArrowUpRight size={13} />
                     </span>
                   </div>
@@ -217,12 +218,12 @@ export default function Explore() {
 
         {/* Post CTA */}
         {!loading && !error && (
-          <div style={{ textAlign: "center", marginTop: 64, borderTop: "1px solid var(--border)", paddingTop: 36 }}>
-            <p style={{ color: "var(--text-secondary)", fontSize: 13, marginBottom: 16 }}>
-              Have an initiative you want to recruit teammates for?
+          <div style={{ textAlign: "center", marginTop: 70, borderTop: "1px solid var(--border)", paddingTop: 40 }}>
+            <p style={{ color: "var(--text-secondary)", fontSize: 14, marginBottom: 18 }}>
+              Looking for collaborators to bring your idea to life?
             </p>
             <Link to="/create" className="btn-primary">
-              Post your project <ArrowUpRight size={15} />
+              Post Your Project <ArrowUpRight size={15} />
             </Link>
           </div>
         )}

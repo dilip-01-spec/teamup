@@ -14,7 +14,7 @@ import {
   Menu,
   X,
   Plus,
-  Terminal,
+  Sparkles,
 } from "lucide-react";
 
 import ProjectDetails from "./pages/ProjectDetails";
@@ -55,54 +55,22 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
     return () => obs.disconnect();
   }, [target]);
 
-  return <strong ref={ref}>{count}{suffix}</strong>;
+  return <span ref={ref}>{count}{suffix}</span>;
 }
 
-/* ─── Clean Typewriter Headline ─── */
-const PHRASES = ["great people.", "bold builders.", "curious minds.", "your team."];
-function Typewriter() {
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [deleting, setDeleting] = useState(false);
-  const pause = useRef(false);
-
-  useEffect(() => {
-    const phrase = PHRASES[phraseIdx];
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!deleting && displayed.length < phrase.length) {
-      timeout = setTimeout(() => setDisplayed(phrase.slice(0, displayed.length + 1)), 60);
-    } else if (!deleting && displayed.length === phrase.length) {
-      if (!pause.current) {
-        pause.current = true;
-        timeout = setTimeout(() => {
-          setDeleting(true);
-          pause.current = false;
-        }, 1800);
-      }
-    } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
-    } else if (deleting && displayed.length === 0) {
-      setDeleting(false);
-      setPhraseIdx((i) => (i + 1) % PHRASES.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayed, deleting, phraseIdx]);
-
-  return (
-    <span className="typewriter-wrap">
-      <span className="hero-highlight">{displayed}</span>
-      <span className="caret" aria-hidden="true" />
-    </span>
-  );
-}
+/* ─── Curated Warm Editorial Visual Assets ─── */
+const EDITORIAL_VISUALS = {
+  left: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+  center: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+  right: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+};
 
 /* ─── Home Page ─── */
 function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     getProjects()
@@ -111,13 +79,27 @@ function Home() {
       .finally(() => setLoading(false));
   }, []);
 
+  const categories = [
+    "All",
+    "Artificial Intelligence",
+    "Web Development",
+    "App Development",
+    "Machine Learning",
+    "Data Science",
+  ];
+
+  const filteredProjects =
+    activeCategory === "All"
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
+
   return (
     <div className="app-shell">
       {/* ── NAVBAR ── */}
       <header className="navbar-wrap">
         <nav className="navbar">
           <Link to="/" className="brand">
-            team<span className="brand-highlight">up</span>
+            team<em>up</em>
             <span className="brand-dot" />
           </Link>
 
@@ -125,162 +107,176 @@ function Home() {
             <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
             <Link to="/explore" onClick={() => setMenuOpen(false)}>Explore</Link>
             <a
-              href="#how-it-works"
+              href="#vision"
               onClick={() => {
-                document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+                document.getElementById("vision")?.scrollIntoView({ behavior: "smooth" });
                 setMenuOpen(false);
               }}
             >
-              How it works
+              Vision
             </a>
-            <Link to="/create" onClick={() => setMenuOpen(false)}>Post a project</Link>
+            <a
+              href="#approach"
+              onClick={() => {
+                document.getElementById("approach")?.scrollIntoView({ behavior: "smooth" });
+                setMenuOpen(false);
+              }}
+            >
+              Approach
+            </a>
+            <Link to="/create" onClick={() => setMenuOpen(false)}>Post Project</Link>
           </div>
 
           <div className="nav-actions">
-            <Link to="/explore" className="nav-ghost">Browse projects</Link>
+            <Link to="/explore" className="nav-ghost">Browse</Link>
             <Link to="/create" className="nav-cta">
-              <Plus size={14} /> Post project
+              <Plus size={14} /> Post Project
             </Link>
           </div>
 
           <button
             className="mobile-menu"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Toggle navigation menu"
           >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </nav>
       </header>
 
       <main>
-        {/* ── HERO SECTION ── */}
+        {/* ── EDITORIAL HERO SECTION ── */}
         <section className="hero">
-          <div className="hero-content">
-            <div className="hero-pill">
-              <span className="hero-pill-dot" />
-              <span>Project collaboration network</span>
-            </div>
+          <span className="hero-super">
+            — Curated Collaboration Network · Volume 01
+          </span>
 
-            <h1>
-              Great ideas need
-              <br />
-              <Typewriter />
-            </h1>
+          <h1>
+            Gathering Minds,
+            <br />
+            Shaping <em>Stories</em>
+          </h1>
 
-            <p className="hero-sub">
-              Stop building in isolation. Discover active student and developer projects,
-              connect with complementary skills, and build software that actually ships.
-            </p>
+          <p className="hero-sub">
+            Stop building in isolation. TeamUp connects students, designers, and
+            developers around ambitious ideas — uniting complementary talents to craft
+            software with intention and craft.
+          </p>
 
-            <div className="hero-buttons">
-              <Link to="/explore" className="btn-primary">
-                Explore projects <ArrowRight size={15} />
-              </Link>
-              <Link to="/create" className="btn-outline">
-                Post your idea <ArrowUpRight size={15} />
-              </Link>
-            </div>
-
-            <div className="hero-social-proof">
-              <div className="avatar-stack">
-                {["D", "A", "M", "S"].map((l, i) => (
-                  <span key={i}>{l}</span>
-                ))}
-              </div>
-              <div className="proof-text">
-                <span>Active student & developer community</span>
-                <span className="proof-live">
-                  <span className="live-dot" />
-                  Live projects available
-                </span>
-              </div>
-            </div>
+          <div className="hero-actions">
+            <Link to="/explore" className="btn-primary">
+              Discover Projects <ArrowRight size={15} />
+            </Link>
+            <Link to="/create" className="btn-outline">
+              Publish Your Idea <ArrowUpRight size={15} />
+            </Link>
           </div>
 
-          {/* ── Product Preview Card ── */}
-          <div className="hero-visual">
-            <div className="preview-card">
-              <div className="preview-card-header">
-                <div className="preview-dots">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className="preview-title">
-                  <Terminal size={12} style={{ display: "inline", marginRight: 4, verticalAlign: -1 }} />
-                  Discovery Canvas
-                </div>
-                <div style={{ width: 36 }} />
+          {/* ── Reference Inspired 3-Panel Editorial Gallery ── */}
+          <div className="hero-editorial-gallery">
+            <div className="gallery-item side-left">
+              <img
+                src={EDITORIAL_VISUALS.left}
+                alt="Architectural minimal space"
+                loading="eager"
+              />
+              <div className="gallery-caption">
+                <span>01 · Creative Focus</span>
+                <span>Spatial Clarity</span>
               </div>
+            </div>
 
-              <div className="preview-card-body">
-                <div className="preview-match-badge">
-                  <span className="live-dot" />
-                  Actively Recruiting Teammates
-                </div>
+            <div className="gallery-item center-large">
+              <img
+                src={EDITORIAL_VISUALS.center}
+                alt="Warm minimalist studio interior"
+                loading="eager"
+              />
+              <div className="gallery-caption">
+                <span>02 · The Collaborative Studio</span>
+                <span>TeamUp Network</span>
+              </div>
+            </div>
 
-                <div className="preview-project-info">
-                  <h4>AI Study Assistant</h4>
-                  <p>
-                    Intelligent collaborative learning platform designed for students tackling
-                    demanding technical topics.
-                  </p>
-                </div>
-
-                <div>
-                  <div className="preview-section-label">Skills Needed</div>
-                  <div className="preview-tags">
-                    <span className="preview-tag highlight">React</span>
-                    <span className="preview-tag highlight">Python</span>
-                    <span className="preview-tag">Machine Learning</span>
-                    <span className="preview-tag">FastAPI</span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="preview-section-label">Open Positions</div>
-                  <div className="preview-tags">
-                    <span className="preview-tag highlight">Frontend Engineer</span>
-                    <span className="preview-tag">AI/ML Specialist</span>
-                  </div>
-                </div>
-
-                <div className="preview-team-status">
-                  <div className="preview-team-user">
-                    <span className="preview-team-avatar">D</span>
-                    <div>
-                      <b>Dilip</b>
-                      <small>Project Creator · Flexible</small>
-                    </div>
-                  </div>
-                  <span className="preview-status-pill">
-                    <span className="live-dot" />
-                    Open to Join
-                  </span>
-                </div>
+            <div className="gallery-item side-right">
+              <img
+                src={EDITORIAL_VISUALS.right}
+                alt="Serene architectural design"
+                loading="eager"
+              />
+              <div className="gallery-caption">
+                <span>03 · Intentional Build</span>
+                <span>Form & Function</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── STATS SECTION ── */}
-        <section className="stats-section">
-          <div className="stat-item">
-            <Counter target={projects.length || 1} suffix="+" />
-            <span>Active projects listed</span>
+        {/* ── MARQUEE TICKER RIBBON (Dynamic Sōl Haus Style) ── */}
+        <div className="marquee-ribbon" aria-hidden="true">
+          <div className="marquee-content">
+            <span>
+              DISCOVER TALENT <span className="marquee-dot">•</span> SHAPING SOFTWARE{" "}
+              <span className="marquee-dot">•</span> <em>TIMELESS COLLABORATION</em>{" "}
+              <span className="marquee-dot">•</span> BUILD TOGETHER{" "}
+              <span className="marquee-dot">•</span> LAUNCH PRODUCTS{" "}
+              <span className="marquee-dot">•</span> <em>TEAMUP NETWORK</em>{" "}
+              <span className="marquee-dot">•</span>
+            </span>
+            <span>
+              DISCOVER TALENT <span className="marquee-dot">•</span> SHAPING SOFTWARE{" "}
+              <span className="marquee-dot">•</span> <em>TIMELESS COLLABORATION</em>{" "}
+              <span className="marquee-dot">•</span> BUILD TOGETHER{" "}
+              <span className="marquee-dot">•</span> LAUNCH PRODUCTS{" "}
+              <span className="marquee-dot">•</span> <em>TEAMUP NETWORK</em>{" "}
+              <span className="marquee-dot">•</span>
+            </span>
           </div>
-          <div className="stat-item">
-            <Counter target={30} suffix="+" />
-            <span>Skill competencies</span>
+        </div>
+
+        {/* ── VISION SECTION (Two-Column Asymmetric) ── */}
+        <section className="vision-section" id="vision">
+          <div className="vision-heading-area">
+            <span className="vision-tag">— Vision</span>
+            <h2>
+              Timeless
+              <br />
+              <em>by Design</em>
+            </h2>
           </div>
-          <div className="stat-item">
-            <Counter target={100} suffix="%" />
-            <span>Open collaboration</span>
-          </div>
-          <div className="stat-item">
-            <strong>∞</strong>
-            <span>Possibilities to build</span>
+
+          <div className="vision-content-area">
+            <p>
+              At TeamUp, we believe projects should do more than just function — they
+              should inspire. Each collaboration is a quiet dialogue between diverse
+              skill sets, crafted with intentionality, clarity, and shared momentum.
+            </p>
+            <p>
+              Rooted in the principles of warm minimalism and thoughtful engineering, our
+              platform gives creators and students a quiet, elevated space to recruit
+              teammates who care about quality as much as they do.
+            </p>
+
+            <div className="vision-stats-row">
+              <div className="vision-stat-item">
+                <b>
+                  <Counter target={projects.length || 1} suffix="+" />
+                </b>
+                <span>Active Initiatives</span>
+              </div>
+              <div className="vision-stat-item">
+                <b>
+                  <Counter target={35} suffix="+" />
+                </b>
+                <span>Specialized Skills</span>
+              </div>
+              <div className="vision-stat-item">
+                <b>
+                  <em>100%</em>
+                </b>
+                <span>Open Collaboration</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -288,27 +284,25 @@ function Home() {
         <section className="projects-section" id="projects">
           <div className="section-header">
             <div>
-              <span className="eyebrow">Opportunities</span>
-              <h2>Projects worth building.</h2>
-              <p>Discover real initiatives actively searching for collaborators.</p>
+              <span className="eyebrow">Curated Directory</span>
+              <h2>Projects Worth Building.</h2>
+              <p>Discover ideas looking for complementary hands, minds, and visions.</p>
             </div>
             <Link to="/explore" className="see-all-btn">
-              Explore all <ArrowUpRight size={14} />
+              Explore Complete Directory <ArrowUpRight size={14} />
             </Link>
           </div>
 
           <div className="category-scroller">
-            {[
-              "Artificial Intelligence",
-              "Web Development",
-              "App Development",
-              "Machine Learning",
-              "Data Science",
-              "Open Source",
-            ].map((c) => (
-              <Link key={c} to="/explore" className="category-pill">
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={`category-chip ${activeCategory === c ? "active" : ""}`}
+                onClick={() => setActiveCategory(c)}
+              >
                 {c}
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -324,8 +318,8 @@ function Home() {
                   </div>
                 ))}
               </div>
-            ) : projects.length > 0 ? (
-              projects.slice(0, 3).map((project) => (
+            ) : filteredProjects.length > 0 ? (
+              filteredProjects.slice(0, 3).map((project) => (
                 <Link
                   key={project._id}
                   to={`/projects/${project._id}`}
@@ -335,7 +329,7 @@ function Home() {
                   <article className="project-card">
                     <div className="project-card-top">
                       <span className="project-category">{project.category}</span>
-                      <span className="status-badge status-open">
+                      <span className="status-badge">
                         <span className="status-dot" />
                         {project.status}
                       </span>
@@ -366,7 +360,7 @@ function Home() {
                         </div>
                       </div>
                       <span className="card-cta-label">
-                        <Users size={12} /> View details <ArrowRight size={12} />
+                        <Users size={12} /> View Details <ArrowRight size={12} />
                       </span>
                     </div>
                   </article>
@@ -374,73 +368,80 @@ function Home() {
               ))
             ) : (
               <div className="empty-projects">
-                <h3>No projects published yet</h3>
-                <p>Be the first to share an idea and recruit teammates.</p>
+                <h3>No initiatives listed under this category</h3>
+                <p>Be the pioneer to post a project in this domain.</p>
                 <Link
                   to="/create"
                   className="btn-primary"
-                  style={{ marginTop: 16, display: "inline-flex" }}
+                  style={{ marginTop: 20, display: "inline-flex" }}
                 >
-                  Post your project <ArrowRight size={14} />
+                  Post Your Project <ArrowRight size={14} />
                 </Link>
               </div>
             )}
           </div>
         </section>
 
-        {/* ── HOW IT WORKS ── */}
-        <section className="how-section" id="how-it-works">
-          <div className="section-header centered">
-            <span className="eyebrow">Architecture</span>
-            <h2>How collaboration works on TeamUp.</h2>
-            <p>From initial concept to active development in three structured steps.</p>
-          </div>
+        {/* ── APPROACH / PROCESS (Sōl Haus "Our Approach" Inspired) ── */}
+        <section className="approach-section" id="approach">
+          <div className="approach-container">
+            <div className="section-header centered">
+              <span className="eyebrow">— Method</span>
+              <h2>Our Approach to Team Formation</h2>
+              <p>From initial concept to active development in three serene steps.</p>
+            </div>
 
-          <div className="steps-grid">
-            {[
-              {
-                n: "01",
-                icon: <Search size={20} />,
-                title: "Discover Ideas",
-                desc: "Explore projects filtered by technical domain, stack requirements, and roles being recruited.",
-              },
-              {
-                n: "02",
-                icon: <Users size={20} />,
-                title: "Connect & Request",
-                desc: "Send direct collaboration requests detailing your skills and how you want to contribute.",
-              },
-              {
-                n: "03",
-                icon: <Rocket size={20} />,
-                title: "Build & Ship",
-                desc: "Form your engineering unit, coordinate execution, and build portfolio-defining applications.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="step-card">
-                <div className="step-num">{step.n}</div>
-                <div className="step-icon-wrap">{step.icon}</div>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-              </div>
-            ))}
+            <div className="steps-grid">
+              {[
+                {
+                  n: "01",
+                  icon: <Search size={20} />,
+                  title: "Discover With Intention",
+                  desc: "Browse curated technical concepts. Filter by stack, project goals, and open team positions.",
+                },
+                {
+                  n: "02",
+                  icon: <Sparkles size={20} />,
+                  title: "Connect Meaningfully",
+                  desc: "Send direct collaboration requests that detail your experience and how you envision contributing.",
+                },
+                {
+                  n: "03",
+                  icon: <Rocket size={20} />,
+                  title: "Build & Ship Together",
+                  desc: "Form your engineering unit, maintain momentum, and bring portfolio-defining work into the world.",
+                },
+              ].map((step) => (
+                <div key={step.n} className="step-card">
+                  <div className="step-num">{step.n}</div>
+                  <div className="step-icon-wrap">{step.icon}</div>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ── CTA ── */}
+        {/* ── EDITORIAL CALL TO ACTION ── */}
         <section className="cta-section">
           <div className="cta-inner">
-            <span className="eyebrow">Get Started</span>
-            <h2>Ready to find your engineering team?</h2>
+            <span className="eyebrow">— Next Chapter</span>
+            <h2>
+              Bring Intention
+              <br />
+              Into <em>Your Project</em>
+            </h2>
             <p>
-              Join students and developers building meaningful software together on TeamUp.
+              The right collaborator transforms an idea into a masterpiece. Join builders
+              crafting exceptional software on TeamUp.
             </p>
             <div className="cta-buttons">
               <Link to="/explore" className="btn-primary">
-                Explore projects <ArrowRight size={15} />
+                Browse All Projects <ArrowRight size={15} />
               </Link>
               <Link to="/create" className="btn-outline">
-                Post your idea <ArrowUpRight size={15} />
+                Submit an Idea <ArrowUpRight size={15} />
               </Link>
             </div>
           </div>
@@ -449,16 +450,28 @@ function Home() {
 
       {/* ── FOOTER ── */}
       <footer className="footer">
-        <Link to="/" className="brand footer-brand">
-          team<span className="brand-highlight">up</span>
-          <span className="brand-dot" />
-        </Link>
-        <p className="footer-tagline">Project collaboration network for developers.</p>
-        <div className="footer-links">
-          <Link to="/explore">Explore</Link>
-          <Link to="/create">Post a project</Link>
+        <div className="footer-top">
+          <div>
+            <Link to="/" className="brand footer-brand">
+              team<em>up</em>
+              <span className="brand-dot" />
+            </Link>
+            <p className="footer-tagline" style={{ marginTop: 6 }}>
+              A warm minimalist collaboration network for ambitious builders.
+            </p>
+          </div>
+          <div className="footer-links">
+            <Link to="/">Home</Link>
+            <Link to="/explore">Directory</Link>
+            <Link to="/create">Post Project</Link>
+            <a href="#vision">Philosophy</a>
+          </div>
         </div>
-        <span className="copyright">© 2026 TeamUp</span>
+
+        <div className="footer-bottom">
+          <span>© 2026 TeamUp Network. All rights reserved.</span>
+          <span>Crafted with intention and warm minimalism.</span>
+        </div>
       </footer>
     </div>
   );

@@ -9,25 +9,25 @@ import {
 import { createProject } from "../services/api";
 import "../App.css";
 
-/* ── Unified Minimal Navbar ── */
+/* ── Unified Minimalist Navbar ── */
 function Navbar() {
   return (
     <div className="shared-navbar-wrap">
       <div className="shared-navbar-inner">
         <Link to="/" className="brand">
-          team<span className="brand-highlight">up</span>
+          team<em>up</em>
           <span className="brand-dot" />
         </Link>
 
         <nav className="shared-nav-links">
           <Link to="/">Home</Link>
-          <Link to="/explore">Explore</Link>
-          <Link to="/create" className="active">Post a project</Link>
+          <Link to="/explore">Directory</Link>
+          <Link to="/create" className="active">Post Project</Link>
         </nav>
 
         <div className="shared-nav-actions">
           <Link to="/explore" className="nav-ghost">
-            Explore projects
+            Explore Directory
           </Link>
         </div>
       </div>
@@ -103,8 +103,8 @@ const CATEGORIES = [
   "Cybersecurity",
   "Game Development",
   "Open Source",
-  "Design & Creative",
-  "DevOps & Cloud",
+  "Design & Architecture",
+  "DevOps & Systems",
   "Education",
   "FinTech",
   "Social Impact",
@@ -152,7 +152,7 @@ export default function CreateProject() {
       setCreatedId(project._id);
       setSuccess(true);
     } catch {
-      setError("Unable to publish project. Please ensure the backend is running on port 5001.");
+      setError("Unable to publish initiative. Please ensure the backend is running on port 5001.");
     } finally {
       setSubmitting(false);
     }
@@ -167,14 +167,14 @@ export default function CreateProject() {
             <div className="create-success-icon">
               <CheckCircle size={32} />
             </div>
-            <h2>Project published successfully.</h2>
+            <h2>Initiative Published with Intention</h2>
             <p>
               <strong>{title}</strong> is now live on the TeamUp network and discoverable
-              by potential collaborators.
+              by collaborators seeking ambitious work.
             </p>
             <div className="create-success-actions">
               <Link to={`/projects/${createdId}`} className="btn-primary">
-                View Project Page <ArrowRight size={15} />
+                View Project Archive <ArrowRight size={15} />
               </Link>
               <button
                 className="btn-outline"
@@ -209,16 +209,18 @@ export default function CreateProject() {
           <span className="eyebrow">
             <Plus size={12} /> New Initiative
           </span>
-          <h1>Post a project.</h1>
+          <h1>
+            Publish a <em>Project</em>
+          </h1>
           <p>
-            Describe your idea, specify the technical skills required, and open
-            positions for teammates to join.
+            Outline your vision, specify the technical competencies required, and define
+            the roles you are looking to assemble.
           </p>
         </div>
 
         {/* Form */}
         <form className="create-form" onSubmit={handleSubmit} noValidate>
-          <p className="form-section-title">1. Project Overview</p>
+          <p className="form-section-title">01 · Project Conception</p>
 
           <div className="form-row">
             <div className="form-field">
@@ -228,7 +230,7 @@ export default function CreateProject() {
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Distributed Database for Edge IoT Devices"
+                placeholder="e.g. Collaborative Spatial Design System"
                 maxLength={90}
               />
             </div>
@@ -242,7 +244,7 @@ export default function CreateProject() {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="What problem does this project solve? What technical architecture or framework are you planning to use?"
+                placeholder="Describe the problem, the core architecture, and what makes this initiative exciting..."
                 maxLength={1200}
               />
             </div>
@@ -251,7 +253,7 @@ export default function CreateProject() {
           <div className="form-row cols-2">
             <div className="form-field">
               <label>
-                Category <span className="required">*</span>
+                Domain Category <span className="required">*</span>
               </label>
               <select
                 value={category}
@@ -272,40 +274,40 @@ export default function CreateProject() {
                   setCommitment(e.target.value as "Part-time" | "Full-time" | "Flexible")
                 }
               >
-                <option value="Flexible">Flexible</option>
-                <option value="Part-time">Part-time (5-15 hrs/wk)</option>
-                <option value="Full-time">Full-time</option>
+                <option value="Flexible">Flexible Engagement</option>
+                <option value="Part-time">Part-time (5–15 hrs/wk)</option>
+                <option value="Full-time">Full-time Commitment</option>
               </select>
             </div>
           </div>
 
-          <p className="form-section-title">2. Team & Skill Requirements</p>
+          <p className="form-section-title">02 · Complementary Skillset</p>
 
           <div className="form-row">
             <div className="form-field">
-              <label>Technical Skills Required</label>
+              <label>Skills & Technologies Required</label>
               <TagInput
                 tags={skills}
                 onChange={setSkills}
-                placeholder="Type skill & press Enter (e.g. TypeScript, PyTorch, Docker)..."
+                placeholder="Type skill & press Enter (e.g. React, Python, Three.js)..."
               />
-              <span className="tag-hint">Press Enter or comma to add each skill tag.</span>
+              <span className="tag-hint">Press Enter or comma to add each skill badge.</span>
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-field">
-              <label>Roles You Want to Fill</label>
+              <label>Target Team Roles</label>
               <TagInput
                 tags={roles}
                 onChange={setRoles}
-                placeholder="Type role & press Enter (e.g. Backend Lead, UX Researcher)..."
+                placeholder="Type role & press Enter (e.g. Frontend Engineer, Product Designer)..."
               />
               <span className="tag-hint">Press Enter or comma to add each target role.</span>
             </div>
           </div>
 
-          <p className="form-section-title">3. Creator Details</p>
+          <p className="form-section-title">03 · Initiator Details</p>
 
           <div className="form-row cols-2">
             <div className="form-field">
@@ -342,7 +344,7 @@ export default function CreateProject() {
             </button>
             <button type="submit" className="create-submit" disabled={submitting}>
               {submitting ? "Publishing..." : (
-                <>Publish project <ArrowRight size={15} /></>
+                <>Publish Initiative <ArrowRight size={15} /></>
               )}
             </button>
           </div>

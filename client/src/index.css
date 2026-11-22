@@ -1,18 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap');
 
 :root {
-  --bg-main: #101412;
-  --bg-secondary: #202923;
-  --bg-card: #202923;
-  --bg-elevated: #34443A;
-  --accent: #C5F467;
-  --text-primary: #F3F5EF;
-  --text-secondary: #A5ADA3;
-  --border: #34443A;
+  --bg-primary: #F5F1E8;
+  --bg-secondary: #E5DED1;
+  --bg-card: #FAF8F3;
+  --text-primary: #282722;
+  --text-secondary: #777568;
+  --accent: #A36B45;
+  --accent-hover: #8c5836;
+  --accent-light: rgba(163, 107, 69, 0.12);
+  --border: #D8D0C3;
+  --border-light: rgba(216, 208, 195, 0.6);
+  --bg-hover: #DCD3C5;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--text-primary);
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -27,30 +33,36 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 700;
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+}
+
+h5, h6 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 button,
 input,
 textarea,
 select {
-  font-family: inherit;
+  font-family: 'DM Sans', sans-serif;
 }
 
 button {
@@ -65,5 +77,5 @@ a {
 #root {
   min-height: 100vh;
   width: 100%;
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
 }
