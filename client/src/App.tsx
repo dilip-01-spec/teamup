@@ -58,11 +58,11 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-/* ─── Curated Warm Editorial Visual Assets ─── */
+/* ─── Curated Warm Editorial Software Project Visuals ─── */
 const EDITORIAL_VISUALS = {
-  left: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
-  center: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-  right: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+  left: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+  center: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+  right: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80",
 };
 
 /* ─── Home Page ─── */
@@ -177,36 +177,36 @@ function Home() {
             <div className="gallery-item side-left">
               <img
                 src={EDITORIAL_VISUALS.left}
-                alt="Architectural minimal space"
+                alt="System Architecture and Codebase"
                 loading="eager"
               />
               <div className="gallery-caption">
-                <span>01 · Creative Focus</span>
-                <span>Spatial Clarity</span>
+                <span>01 · Core Engineering</span>
+                <span>Distributed Systems</span>
               </div>
             </div>
 
             <div className="gallery-item center-large">
               <img
                 src={EDITORIAL_VISUALS.center}
-                alt="Warm minimalist studio interior"
+                alt="Modern collaborative software build workspace"
                 loading="eager"
               />
               <div className="gallery-caption">
-                <span>02 · The Collaborative Studio</span>
-                <span>TeamUp Network</span>
+                <span>02 · The Engineering Workspace</span>
+                <span>Full-Stack Development</span>
               </div>
             </div>
 
             <div className="gallery-item side-right">
               <img
                 src={EDITORIAL_VISUALS.right}
-                alt="Serene architectural design"
+                alt="Product Interface and Design System"
                 loading="eager"
               />
               <div className="gallery-caption">
-                <span>03 · Intentional Build</span>
-                <span>Form & Function</span>
+                <span>03 · Product Design</span>
+                <span>User Experience</span>
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const api = axios.create({
@@ -33,6 +32,17 @@ export interface CreateProjectData {
   commitment: "Part-time" | "Full-time" | "Flexible";
 }
 
+export interface JoinRequest {
+  _id: string;
+  projectId: string;
+  projectTitle?: string;
+  name: string;
+  email: string;
+  message: string;
+  status: "Pending" | "Accepted" | "Rejected";
+  createdAt: string;
+}
+
 export const getProjects = async () => {
   const response = await api.get("/projects");
   return response.data.projects as Project[];
@@ -48,5 +58,30 @@ export const createProject = async (data: CreateProjectData) => {
   return response.data.project as Project;
 };
 
-export default api;
+export const createJoinRequest = async (
+  projectId: string,
+  data: { name: string; email: string; message: string }
+) => {
+  const response = await api.post(`/projects/${projectId}/requests`, data);
+  return response.data.request as JoinRequest;
+};
 
+export const getProjectRequests = async (projectId: string) => {
+  const response = await api.get(`/projects/${projectId}/requests`);
+  return response.data.requests as JoinRequest[];
+};
+
+export const updateRequestStatus = async (
+  requestId: string,
+  status: "Accepted" | "Rejected" | "Pending"
+) => {
+  const response = await api.patch(`/requests/${requestId}`, { status });
+  return response.data.request as JoinRequest;
+};
+
+export const getUserRequests = async (email: string) => {
+  const response = await api.get(`/requests?email=${encodeURIComponent(email)}`);
+  return response.data.requests as JoinRequest[];
+};
+
+export default api;
